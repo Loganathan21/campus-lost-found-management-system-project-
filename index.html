@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#080b18" />
+  <title>CampusFind DMICE | Lost & Found</title>
+  <link rel="canonical" href="https://campuslostfound-dmice.netlify.app/" />
+  <meta property="og:url" content="https://campuslostfound-dmice.netlify.app/" />
+  <meta name="campusfind-api-url" content="" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <a href="#" class="brand">
+      <span class="brand-icon">D</span>
+      Campus<span>Find (DMICE)</span>
+    </a>
+
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#items">Browse Items</a>
+      <a href="#report">Report Item</a>
+    </nav>
+
+    <div class="nav-actions">
+      <span id="signedInLabel" class="signed-in-label" hidden></span>
+      <button id="authButton" class="nav-btn" type="button">Sign in</button>
+      <button id="logoutButton" class="small-btn" type="button" hidden>Sign out</button>
+      <a href="#report" class="nav-btn report-nav-btn">+ Report Item</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <div class="eyebrow">
+          <span class="live-dot"></span>
+          YOUR CAMPUS, CONNECTED
+        </div>
+
+        <h1>Lost something?<br />
+          <span>Let's find it.</span>
+        </h1>
+
+        <p class="hero-description">
+          A smarter way to reconnect students with their
+          lost belongings. Report, discover, and reunite
+          — all in one campus community.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#items" class="primary-btn">Explore Items ↗</a>
+          <a href="#report" class="secondary-btn">Report an Item</a>
+        </div>
+
+        <div class="hero-note">
+          <span class="avatar-stack">
+            <i>L</i><i>F</i><i>C</i>
+          </span>
+          <span>One campus. One community. Less lost.</span>
+        </div>
+      </div>
+
+      <div class="hero-visual" id="heroVisual">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+
+        <div class="floating-tag tag-top">
+          <span>✦</span> Smart discovery
+        </div>
+
+        <div class="object-3d">
+          <div class="object-glow"></div>
+          <div class="cube-face cube-front">🎒</div>
+          <div class="cube-face cube-side"></div>
+          <div class="cube-face cube-top"></div>
+        </div>
+
+        <div class="floating-tag tag-bottom">
+          <span class="live-dot"></span> Reuniting belongings
+        </div>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Campus statistics">
+      <div class="stat-card">
+        <span class="stat-icon">◈</span>
+        <div><p>Total Reports</p><h2 id="totalCount">0</h2></div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon green">✓</span>
+        <div><p>Found Items</p><h2 id="foundCount">0</h2></div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon purple">⌕</span>
+        <div><p>Lost Items</p><h2 id="lostCount">0</h2></div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon orange">↗</span>
+        <div><p>Recovered</p><h2 id="recoveredCount">0</h2></div>
+      </div>
+    </section>
+
+    <section class="items-section" id="items">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">CAMPUS COLLECTION</div>
+          <h2>Discover your <span>belongings.</span></h2>
+          <p>Browse reports shared by your campus community.</p>
+        </div>
+        <a href="#report" class="secondary-btn">+ Add a report</a>
+      </div>
+
+      <div class="filter-panel">
+        <div class="search-box">
+          <span>⌕</span>
+          <input id="searchInput" type="search"
+            placeholder="Search items, places, descriptions..." />
+        </div>
+
+        <select id="categoryFilter" aria-label="Filter by category">
+          <option value="All">All Categories</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Accessories">Accessories</option>
+          <option value="Documents">Documents</option>
+          <option value="Bags">Bags</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <select id="statusFilter" aria-label="Filter by status">
+          <option value="All">All Reports</option>
+          <option value="Lost">Lost</option>
+          <option value="Found">Found</option>
+          <option value="Recovered">Recovered</option>
+        </select>
+      </div>
+
+      <div class="items-grid" id="itemsGrid"></div>
+      <p class="backend-status" id="backendStatus" role="status">
+        Connecting to the shared campus database...
+      </p>
+      <p class="empty-state" id="emptyState" hidden>
+        No matching items found. Try another search.
+      </p>
+    </section>
+
+    <section class="report-section" id="report">
+      <div class="report-intro">
+        <div class="eyebrow">BE PART OF THE SOLUTION</div>
+        <h2>Every item has<br />a way <span>back home.</span></h2>
+        <p>
+          Help a fellow student. Share what you've lost or
+          found and let the campus community do the rest.
+        </p>
+        <div class="report-tip">
+          <span>✦</span>
+          <div>
+            <strong>A quick tip</strong>
+            <p>Include a clear description and the last known location.</p>
+          </div>
+        </div>
+      </div>
+
+      <form id="reportForm" class="report-form">
+        <h3>Submit a report</h3>
+        <p class="form-subtitle">Fields marked * are required.</p>
+
+        <div class="form-row">
+          <label>Report type *
+            <select id="itemStatus" required>
+              <option value="Lost">I've lost something</option>
+              <option value="Found">I've found something</option>
+            </select>
+          </label>
+
+          <label>Item category *
+            <select id="itemCategory" required>
+              <option value="Electronics">Electronics</option>
+              <option value="Accessories">Accessories</option>
+              <option value="Documents">Documents</option>
+              <option value="Bags">Bags</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+        </div>
+
+        <label>Item name *
+          <input id="itemName" required maxlength="70"
+            placeholder="e.g. Black wireless headphones" />
+        </label>
+
+        <div class="form-row">
+          <label>Campus location *
+            <input id="itemLocation" required maxlength="100"
+              placeholder="e.g. Library, Block A" />
+          </label>
+
+          <label>Date *
+            <input id="itemDate" type="date" required />
+          </label>
+        </div>
+
+        <label>Approximate time
+          <input id="itemTime" type="time" />
+        </label>
+
+        <label>Description *
+          <textarea id="itemDescription" required maxlength="500"
+            rows="3" placeholder="Describe the item and any identifying details..."></textarea>
+        </label>
+
+        <label>Contact email *
+          <input id="itemEmail" type="email" required maxlength="150"
+            placeholder="Sign in to use your account email" readonly />
+        </label>
+
+        <label>Item image (optional)
+          <input id="itemImage" type="file" accept="image/png,image/jpeg,image/webp" />
+        </label>
+
+        <p class="form-message" id="formMessage" role="status"></p>
+
+        <button type="submit" class="primary-btn submit-btn">
+          Submit Report ↗
+        </button>
+        <p class="privacy-note">
+          Reports are shared with the campus community and stored in MySQL.
+        </p>
+      </form>
+    </section>
+
+    <dialog class="item-dialog auth-dialog" id="authDialog" aria-labelledby="authTitle">
+      <button class="dialog-close" id="closeAuthDialog" type="button" aria-label="Close sign in">×</button>
+      <h2 id="authTitle">Sign in to CampusFind</h2>
+      <p class="auth-description">Use your account to report items and update their status.</p>
+      <form id="authForm">
+        <label id="nameField" hidden>
+          Name
+          <input id="authName" type="text" maxlength="100" autocomplete="name" />
+        </label>
+        <label id="roleField" hidden>
+          Account type
+          <select id="authRole">
+            <option value="student">Student</option>
+            <option value="staff">Staff</option>
+            <option value="admin">Admin</option>
+          </select>
+          <span class="role-help">Staff and Admin accounts must be assigned by a campus administrator.</span>
+        </label>
+        <label>
+          Email
+          <input id="authEmail" type="email" maxlength="150" required autocomplete="email" />
+        </label>
+        <label>
+          Password
+          <input id="authPassword" type="password" minlength="8" maxlength="72" required
+            autocomplete="current-password" />
+        </label>
+        <p class="form-message" id="authMessage" role="status"></p>
+        <button class="primary-btn submit-btn" id="authSubmit" type="submit">Sign in</button>
+      </form>
+      <p class="auth-switch">
+        <span id="authSwitchPrompt">New to CampusFind?</span>
+        <button id="authSwitch" class="text-button" type="button">Create an account</button>
+      </p>
+    </dialog>
+
+    <dialog class="item-dialog" id="itemDialog" aria-labelledby="detailName">
+      <button class="dialog-close" id="closeItemDialog" type="button" aria-label="Close item details">×</button>
+      <div id="itemDialogContent"></div>
+    </dialog>
+  </main>
+
+  <footer>
+    <a href="#home" class="brand">
+      <span class="brand-icon">D</span>
+      Campus<span>Find (DMICE)</span>
+    </a>
+    <p>Made for campus communities · Lost less, connect more.</p>
+    <a href="#home">Back to top ↑</a>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
